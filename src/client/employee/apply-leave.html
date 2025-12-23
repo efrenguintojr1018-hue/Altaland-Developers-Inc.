@@ -1,0 +1,44 @@
+<div>
+  <h3>Apply for Leave</h3>
+
+  <form id="leave-application-form">
+    <select id="leaveType" required></select>
+    <input type="date" id="startDate" required>
+    <input type="date" id="endDate" required>
+    <textarea id="reason" placeholder="Reason" required></textarea>
+    <button type="submit">Submit Application</button>
+  </form>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    loadLeaveTypesIntoSelect();
+
+    const form = document.getElementById('leave-application-form');
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const application = {
+        leaveTypeId: document.getElementById('leaveType').value,
+        startDate: document.getElementById('startDate').value,
+        endDate: document.getElementById('endDate').value,
+        reason: document.getElementById('reason').value,
+      };
+      google.script.run.withSuccessHandler(() => {
+        alert('Leave application submitted.');
+        form.reset();
+      }).submitLeaveApplication(loggedInUser, application);
+    });
+  });
+
+  function loadLeaveTypesIntoSelect() {
+    google.script.run.withSuccessHandler(function(leaveTypes) {
+      const select = document.getElementById('leaveType');
+      select.innerHTML = '';
+      leaveTypes.forEach(function(lt) {
+        const option = document.createElement('option');
+        option.value = lt.LeaveTypeID;
+        option.innerText = lt.LeaveTypeName;
+        select.appendChild(option);
+      });
+    }).getLeaveTypes();
+  }
+</script>

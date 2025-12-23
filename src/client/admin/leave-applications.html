@@ -1,0 +1,81 @@
+<div>
+  <h3>Leave Applications</h3>
+
+  <div id="filters">
+    <select id="status-filter">
+      <option value="All">All</option>
+      <option value="Pending">Pending</option>
+      <option value="Approved">Approved</option>
+      <option value="Not Approved">Not Approved</option>
+    </select>
+  </div>
+
+  <!-- Leave Applications Table -->
+  <table id="leave-applications-table">
+    <thead>
+      <tr>
+        <th>Employee</th>
+        <th>Leave Type</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Reason</th>
+        <th>Status</th>
+        <th>Date Submitted</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Leave application data will be loaded here -->
+    </tbody>
+  </table>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    loadLeaveApplications();
+
+    const statusFilter = document.getElementById('status-filter');
+    statusFilter.addEventListener('change', function() {
+      loadLeaveApplications(this.value);
+    });
+  });
+
+  function loadLeaveApplications(status = 'All') {
+    google.script.run.withSuccessHandler(function(applications) {
+      const tbody = document.getElementById('leave-applications-table').getElementsByTagName('tbody')[0];
+      tbody.innerHTML = '';
+      applications.forEach(function(app) {
+        const row = tbody.insertRow();
+        row.insertCell(0).innerText = app.EmployeeName;
+        row.insertCell(1).innerText = app.LeaveTypeName;
+        row.insertCell(2).innerText = app.StartDate;
+        row.insertCell(3).innerText = app.EndDate;
+        row.insertCell(4).innerText = app.Reason;
+        row.insertCell(5).innerText = app.Status;
+        row.insertCell(6).innerText = app.DateSubmitted;
+
+        const actionsCell = row.insertCell(7);
+        if (app.Status === 'Pending') {
+          const approveButton = document.createElement('button');
+          approveButton.innerText = 'Approve';
+          approveButton.onclick = function() {
+            updateStatus(app.LeaveApplicationID, 'Approved');
+          };
+          actionsCell.appendChild(approveButton);
+
+          const denyButton = document.createElement('button');
+          denyButton.innerText = 'Deny';
+          denyButton.onclick = function() {
+            updateStatus(app.LeaveApplicationID, 'Not Approved');
+          };
+          actionsCell.appendChild(denyButton);
+        }
+      });
+    }).getLeaveApplications(status);
+  }
+
+  function updateStatus(applicationId, newStatus) {
+    google.script.run.withSuccessHandler(function() {
+      loadLeaveApplications(document.getElementById('status-filter').value);
+    }).updateLeaveApplicationStatus(applicationId, newStatus);
+  }
+</script>

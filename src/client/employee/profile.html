@@ -1,0 +1,60 @@
+<div>
+  <h3>My Profile</h3>
+
+  <form id="profile-form">
+    <input type="hidden" id="employeeId">
+    <input type="text" id="firstName" placeholder="First Name" required>
+    <input type="text" id="lastName" placeholder="Last Name" required>
+    <input type="email" id="email" placeholder="Email" required>
+    <button type="submit">Update Profile</button>
+  </form>
+
+  <h3>Update Password</h3>
+  <form id="password-form">
+    <input type="password" id="newPassword" placeholder="New Password" required>
+    <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+    <button type="submit">Update Password</button>
+  </form>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    loadProfile();
+
+    const profileForm = document.getElementById('profile-form');
+    profileForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const profile = {
+        firstName: document.getElementById('firstName').value,
+        lastName: document.getElementById('lastName').value,
+        email: document.getElementById('email').value,
+      };
+      google.script.run.withSuccessHandler(() => alert('Profile updated.')).updateEmployeeProfile(loggedInUser, profile);
+    });
+
+    const passwordForm = document.getElementById('password-form');
+    passwordForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const newPassword = document.getElementById('newPassword').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+      if (newPassword !== confirmPassword) {
+        alert('Passwords do not match.');
+        return;
+      }
+      google.script.run.withSuccessHandler(() => {
+        alert('Password updated.');
+        passwordForm.reset();
+      }).updateEmployeePassword(loggedInUser, newPassword);
+    });
+  });
+
+  function loadProfile() {
+    google.script.run.withSuccessHandler(function(profile) {
+      if (profile) {
+        document.getElementById('employeeId').value = profile.EmployeeID;
+        document.getElementById('firstName').value = profile.FirstName;
+        document.getElementById('lastName').value = profile.LastName;
+        document.getElementById('email').value = profile.Email;
+      }
+    }).getEmployeeProfile(loggedInUser);
+  }
+</script>

@@ -1,0 +1,40 @@
+<div>
+  <h3>Leave History</h3>
+
+  <table id="leave-history-table">
+    <thead>
+      <tr>
+        <th>Leave Type</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Reason</th>
+        <th>Status</th>
+        <th>Date Submitted</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Leave history data will be loaded here -->
+    </tbody>
+  </table>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    loadLeaveHistory();
+  });
+
+  function loadLeaveHistory() {
+    google.script.run.withSuccessHandler(function(history) {
+      const tbody = document.getElementById('leave-history-table').getElementsByTagName('tbody')[0];
+      tbody.innerHTML = '';
+      history.forEach(function(item) {
+        const row = tbody.insertRow();
+        row.insertCell(0).innerText = item.LeaveTypeName;
+        row.insertCell(1).innerText = item.StartDate;
+        row.insertCell(2).innerText = item.EndDate;
+        row.insertCell(3).innerText = item.Reason;
+        row.insertCell(4).innerText = item.Status;
+        row.insertCell(5).innerText = item.DateSubmitted;
+      });
+    }).getLeaveHistory(loggedInUser);
+  }
+</script>
