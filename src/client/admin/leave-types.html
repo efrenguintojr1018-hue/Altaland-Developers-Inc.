@@ -1,0 +1,78 @@
+<div>
+  <h3>Leave Types</h3>
+
+  <!-- Add/Edit Form -->
+  <form id="leave-type-form">
+    <input type="hidden" id="leaveTypeId">
+    <input type="text" id="leaveTypeName" placeholder="Leave Type Name" required>
+    <textarea id="leaveTypeDescription" placeholder="Description"></textarea>
+    <button type="submit">Save Leave Type</button>
+  </form>
+
+  <!-- Leave Types Table -->
+  <table id="leave-types-table">
+    <thead>
+      <tr>
+        <th>Leave Type Name</th>
+        <th>Description</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Leave type data will be loaded here -->
+    </tbody>
+  </table>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    loadLeaveTypes();
+
+    const form = document.getElementById('leave-type-form');
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const leaveTypeId = document.getElementById('leaveTypeId').value;
+      const leaveTypeName = document.getElementById('leaveTypeName').value;
+      const leaveTypeDescription = document.getElementById('leaveTypeDescription').value;
+
+      if (leaveTypeId) {
+        // Update
+        google.script.run.withSuccessHandler(loadLeaveTypes).updateLeaveType(leaveTypeId, leaveTypeName, leaveTypeDescription);
+      } else {
+        // Add
+        google.script.run.withSuccessHandler(loadLeaveTypes).addLeaveType(leaveTypeName, leaveTypeDescription);
+      }
+      form.reset();
+    });
+  });
+
+  function loadLeaveTypes() {
+    google.script.run.withSuccessHandler(function(leaveTypes) {
+      const tbody = document.getElementById('leave-types-table').getElementsByTagName('tbody')[0];
+      tbody.innerHTML = '';
+      leaveTypes.forEach(function(lt) {
+        const row = tbody.insertRow();
+        row.insertCell(0).innerText = lt.LeaveTypeName;
+        row.insertCell(1).innerText = lt.Description;
+        const actionsCell = row.insertCell(2);
+
+        const editButton = document.createElement('button');
+        editButton.innerText = 'Edit';
+        editButton.onclick = function() {
+          document.getElementById('leaveTypeId').value = lt.LeaveTypeID;
+          document.getElementById('leaveTypeName').value = lt.LeaveTypeName;
+          document.getElementById('leaveTypeDescription').value = lt.Description;
+        };
+        actionsCell.appendChild(editButton);
+
+        const deleteButton = document.createElement('button');
+        deleteButton.innerText = 'Delete';
+        deleteButton.onclick = function() {
+          if (confirm('Are you sure you want to delete this leave type?')) {
+            google.script.run.withSuccessHandler(loadLeaveTypes).deleteLeaveType(lt.LeaveTypeID);
+          }
+        };
+        actionsCell.appendChild(deleteButton);
+      });
+    }).getLeaveTypes();
+  }
+</script>

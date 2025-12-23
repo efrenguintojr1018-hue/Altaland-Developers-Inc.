@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <link rel="stylesheet" href="styles/styles.css">
+  </head>
+  <body>
+    <div id="app">
+      <!-- Login Page -->
+      <div id="login-page">
+        <h1>ALTALAND DEVELOPERS INC.</h1>
+        <h2>Online Leave Management System</h2>
+        <form id="login-form">
+          <input type="email" id="email" placeholder="Email" required>
+          <input type="password" id="password" placeholder="Password" required>
+          <button type="submit">Login</button>
+        </form>
+      </div>
+
+      <!-- Admin Dashboard -->
+      <div id="admin-dashboard" style="display:none;">
+        <nav>
+          <ul>
+            <li><a href="#" id="home-link">Home</a></li>
+            <li><a href="#" id="departments-link">Departments</a></li>
+            <li><a href="#" id="leave-types-link">Leave Types</a></li>
+            <li><a href="#" id="employees-link">Employees</a></li>
+            <li><a href="#" id="leave-applications-link">Leave Applications</a></li>
+            <li><a href="#" id="logout-link">Logout</a></li>
+          </ul>
+        </nav>
+        <div id="admin-content">
+          <!-- Admin content will be loaded here -->
+        </div>
+      </div>
+
+      <!-- Employee Dashboard -->
+      <div id="employee-dashboard" style="display:none;">
+        <nav>
+          <ul>
+            <li><a href="#" id="profile-link">Profile</a></li>
+            <li><a href="#" id="apply-leave-link">Apply for Leave</a></li>
+            <li><a href="#" id="leave-history-link">Leave History</a></li>
+            <li><a href="#" id="employee-logout-link">Logout</a></li>
+          </ul>
+        </nav>
+        <div id="employee-content">
+          <!-- Employee content will be loaded here -->
+        </div>
+      </div>
+    </div>
+    <script src="client/scripts.js"></script>
+  </body>
+</html>
