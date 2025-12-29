@@ -7,7 +7,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <img src="https://i.imgur.com/LOGINALE.png" alt="Company Logo" style="width: 100px; height: 100px;">
+            <img src="https://i.imgur.com/BoN9gD9.png" alt="Company Logo" style="width: 100px; height: 100px;">
             <h1>ALTALAND ONLINE ELMS</h1>
             <p>ALTALAND DEVELOPERS INC. ( Buildings Tomorrow LandMarks )</p>
         </div>
@@ -15,9 +15,8 @@
         <!-- Login Page -->
         <div id="login-page">
             <h2>Login</h2>
-            <input type="email" id="email" placeholder="Email" required>
-            <input type="password" id="password" placeholder="Password" required>
-            <button onclick="login()">Login</button>
+            <p>You will be logged in with your Google Account.</p>
+            <button onclick="login()">Login with Google</button>
             <p id="login-message"></p>
         </div>
 
@@ -34,9 +33,9 @@
                 <input type="date" id="start-date" required>
                 <input type="date" id="end-date" required>
                 <select id="leave-type" required>
-                    <option value="Sick">Sick Leave</option>
-                    <option value="Vacation">Vacation Leave</option>
-                    <option value="Personal">Personal Leave</option>
+                    <option value="Sick Leave">Sick Leave</option>
+                    <option value="Vacation Leave">Vacation Leave</option>
+                    <option value="Personal Leave">Personal Leave</option>
                 </select>
                 <button type="submit">Submit</button>
             </form>
@@ -67,6 +66,47 @@
                             <th>Type</th>
                             <th>Status</th>
                             <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Communication Dashboard -->
+            <div id="communication-dashboard">
+                <h3>Messages</h3>
+                <form id="send-message-form">
+                    <input type="email" id="message-to" placeholder="To (Email)" required>
+                    <textarea id="message-body" placeholder="Message" required></textarea>
+                    <button type="submit">Send</button>
+                </form>
+                <table id="messages-table">
+                    <thead>
+                        <tr>
+                            <th>From</th>
+                            <th>Message</th>
+                            <th>Timestamp</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+
+                <h3>User Management</h3>
+                <form id="add-user-form">
+                    <input type="email" id="new-user-email" placeholder="Email" required>
+                    <select id="new-user-role" required>
+                        <option value="Employee">Employee</option>
+                        <option value="HR">HR</option>
+                    </select>
+                    <button type="submit">Add User</button>
+                </form>
+                <table id="users-table">
+                    <thead>
+                        <tr>
+                            <th>Email</th>
+                            <th>Role</th>
                         </tr>
                     </thead>
                     <tbody>
