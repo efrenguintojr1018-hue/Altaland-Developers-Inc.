@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <base target="_top">
+    <?!= include('styles'); ?>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="https://i.imgur.com/LOGINALE.png" alt="Company Logo" style="width: 100px; height: 100px;">
+            <h1>ALTALAND ONLINE ELMS</h1>
+            <p>ALTALAND DEVELOPERS INC. ( Buildings Tomorrow LandMarks )</p>
+        </div>
+
+        <!-- Login Page -->
+        <div id="login-page">
+            <h2>Login</h2>
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button onclick="login()">Login</button>
+            <p id="login-message"></p>
+        </div>
+
+        <!-- Dashboard Page -->
+        <div id="dashboard-page" style="display:none;">
+            <h2 id="welcome-message"></h2>
+            <button onclick="logout()">Logout</button>
+
+            <h3>Leave Credits</h3>
+            <div id="leave-credits"></div>
+
+            <h3>Submit a Leave Request</h3>
+            <form id="leave-request-form">
+                <input type="date" id="start-date" required>
+                <input type="date" id="end-date" required>
+                <select id="leave-type" required>
+                    <option value="Sick">Sick Leave</option>
+                    <option value="Vacation">Vacation Leave</option>
+                    <option value="Personal">Personal Leave</option>
+                </select>
+                <button type="submit">Submit</button>
+            </form>
+
+            <h3>Leave Requests</h3>
+            <table id="leave-requests-table">
+                <thead>
+                    <tr>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Type</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+
+            <!-- HR Admin Panel -->
+            <div id="admin-panel" style="display:none;">
+                <h3>All Leave Requests</h3>
+                <table id="all-leave-requests-table">
+                    <thead>
+                        <tr>
+                            <th>Employee</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Type</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <?!= include('scripts'); ?>
+</body>
+</html>
